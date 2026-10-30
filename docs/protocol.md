@@ -1,6 +1,6 @@
 # Evaluation Protocol: Childhood Anaemia Risk Prediction, Malawi DHS 2024
 
-**Version:** 1.0
+**Version:** 1.1
 **Date:** 2026-10-30
 **Status:** Written before data access. Changes after this date are recorded in Section 13 only.
 
@@ -78,14 +78,9 @@ All data-dependent steps (imputation, scaling, encoding, feature selection) are 
 
 M1 and M2 are compared on development-set cross-validated AUROC. The better of the two is the final model.
 
-**Tuning.** M1: regularisation strength C chosen from {0.01, 0.1, 1, 10, 100}.
-M2: 30 random configurations over learning rate, maximum leaf nodes, minimum
-samples per leaf and L2 regularisation. Both are tuned using grouped 5-fold
-cross-validation AUROC on the development set only.
+**Tuning.** M1: regularisation strength C chosen from {0.01, 0.1, 1, 10, 100}. M2: 30 random configurations over learning rate, maximum leaf nodes, minimum samples per leaf and L2 regularisation. Both are tuned using grouped 5-fold cross-validation AUROC on the development set only.
 
-**Model choice.** M2 is selected as the final model only if its mean
-cross-validated AUROC exceeds that of M1 by at least 0.01. Otherwise M1 is the
-final model.
+**Model choice.** M2 is selected as the final model only if its mean cross-validated AUROC exceeds that of M1 by at least 0.01. Otherwise M1 is the final model.
 
 ## 9. Metrics
 
@@ -99,11 +94,9 @@ final model.
 
 Accuracy is not reported as a performance metric.
 
-Recalibration (Platt scaling or isotonic regression) may be applied to the final model. It is fitted only on cross-validated predictions from the development set. Calibration is reported before and after recalibration.
+**Threshold metrics.** Sensitivity, specificity and positive predictive value are reported when the highest-risk 20%, 30% and 50% of children (ranked by predicted risk) are flagged.
 
-**Threshold metrics.** Sensitivity, specificity and positive predictive value
-are reported when the highest-risk 20%, 30% and 50% of children (ranked by
-predicted risk) are flagged.
+Recalibration (Platt scaling or isotonic regression) may be applied to the final model. It is fitted only on cross-validated predictions from the development set. Calibration is reported before and after recalibration.
 
 ## 10. Confidence intervals
 
@@ -141,3 +134,4 @@ The comparison of the final model with B1 is the only primary comparison. The co
 | Date | Section | Change | Reason |
 |---|---|---|---|
 | 2026-10-30 | All | Initial version | |
+| 2026-10-30 | 8, 9 | Added tuning budget, model-choice rule and threshold fractions | Gaps in v1.0, added before any data were downloaded or opened |
